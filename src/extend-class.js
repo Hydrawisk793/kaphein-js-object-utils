@@ -25,10 +25,10 @@ module.exports = (function ()
 
         ctor.prototype = Object.assign(
             Object.create(parentCtor.prototype),
-            proto,
             {
                 constructor : ctor
-            }
+            },
+            proto
         );
 
         if(Object.setPrototypeOf)

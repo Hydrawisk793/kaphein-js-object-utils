@@ -60,6 +60,33 @@ module.exports = function ()
         b = new B();
     });
 
+    it("should be able to override constructor property.", function ()
+    {
+        const bCtor = function B()
+        {};
+        bCtor.staticMemberOfB = "test";
+        B = extendClass(
+            A,
+            bCtor,
+            {
+                constructor : null,
+
+                bar()
+                {
+                    return "asdf";
+                },
+
+                baz()
+                {
+                    return false;
+                }
+            }
+        );
+
+        b = new B();
+        expect(b.constructor).to.be.null;
+    });
+
     it("should implement inheritance relationships.", function ()
     {
         expect(b).to.instanceOf(B);

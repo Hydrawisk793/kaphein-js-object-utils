@@ -15,18 +15,18 @@ export declare function extendClass<
     Derived extends Assign<
         BasePrototype,
         Assign<
-            Prototype,
             {
                 constructor : DerivedConstructor;
-            }
+            },
+            Prototype
         >
     > = Assign<
         BasePrototype,
         Assign<
-            Prototype,
             {
                 constructor : DerivedConstructor;
-            }
+            },
+            Prototype
         >
     >,
 >(
