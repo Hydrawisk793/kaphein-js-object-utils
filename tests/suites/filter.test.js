@@ -16,6 +16,8 @@ module.exports = function ()
         quuux : true,
         piyo : [],
         piyopiyo : {},
+        "0" : "foobar",
+        "3" : [],
     };
 
     function _emptyFunction()
@@ -27,11 +29,11 @@ module.exports = function ()
         {
             expect(pickKeys(obj, [])).to.deep.equal([]);
 
-            let keysToFilter = ["foo", "bar"];
-            expect(pickKeys(obj, keysToFilter)).to.deep.equal(keysToFilter);
+            let keysToFilter = ["foo", "bar", "0"];
+            expect(pickKeys(obj, keysToFilter)).to.include.members(keysToFilter);
 
             keysToFilter = ["foo", "zzzz"];
-            expect(keysToFilter).to.include.members(pickKeys(obj, keysToFilter));
+            expect(keysToFilter.sort()).to.include.members(pickKeys(obj, keysToFilter).sort());
         });
 
         it("should pick keys selected by a record of boolean values.", function ()
@@ -44,8 +46,9 @@ module.exports = function ()
                 baz : {},
                 qux : void 0,
                 quuux : null,
+                "3" : true,
             };
-            expect(pickKeys(obj, predicate)).to.include.members(["foo", "baz"]);
+            expect(pickKeys(obj, predicate)).to.include.members(["foo", "baz", "3"]);
         });
 
         it("should pick keys selected by a function.", function ()
@@ -66,7 +69,7 @@ module.exports = function ()
         {
             expect(omitKeys(obj, []).sort()).to.deep.equal(Object.keys(obj).sort());
 
-            let keysToFilter = ["foo", "bar"];
+            let keysToFilter = ["foo", "bar", "0"];
             expect(omitKeys(obj, keysToFilter)).to.not.include.members(keysToFilter);
 
             keysToFilter = ["foo", "zzzz"];
@@ -83,8 +86,9 @@ module.exports = function ()
                 baz : {},
                 qux : void 0,
                 quuux : null,
+                "3" : true,
             };
-            expect(omitKeys(obj, predicate)).to.not.include.members(["foo", "baz"]);
+            expect(omitKeys(obj, predicate)).to.not.include.members(["foo", "baz", "3"]);
         });
 
         it("should omit keys selected by a function.", function ()
