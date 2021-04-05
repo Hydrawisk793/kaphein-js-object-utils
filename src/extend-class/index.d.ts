@@ -31,6 +31,7 @@ export declare function extendClass<
     >,
 >(
     baseClass : BaseClass,
+    pickParentArgs : (args : IArguments) => ArrayLike<any> | null,
     ctor : Constructor,
     proto : Prototype
 ) : Assign<
