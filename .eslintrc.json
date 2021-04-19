@@ -16,6 +16,11 @@
     },
     "plugins": [],
     "settings": {},
+    "ignorePatterns": [
+        "dist",
+        "node_modules",
+        "**/node_modules/*"
+    ],
     "rules": {
         "no-trailing-spaces" : [
             "error",
