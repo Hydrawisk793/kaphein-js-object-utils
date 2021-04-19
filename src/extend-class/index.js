@@ -7,9 +7,9 @@ module.exports = (function ()
     var extendClass = null;
     if(_supportsClass() && _supportsSpreadInFunctionCalls())
     {
-        extendClass = function extendClass(parentCtor, pickParentArgs, ctor, proto)
+        extendClass = function extendClass(parentCtor, ctor, pickParentArgs, proto)
         {
-            _assertArgsAreValid(parentCtor, pickParentArgs, ctor, proto);
+            _assertArgsAreValid(parentCtor, ctor, pickParentArgs, proto);
 
             var derived = class extends parentCtor
             {
@@ -30,9 +30,9 @@ module.exports = (function ()
     }
     else
     {
-        extendClass = function extendClass(parentCtor, pickParentArgs, ctor, proto)
+        extendClass = function extendClass(parentCtor, ctor, pickParentArgs, proto)
         {
-            _assertArgsAreValid(parentCtor, pickParentArgs, ctor, proto);
+            _assertArgsAreValid(parentCtor, ctor, pickParentArgs, proto);
 
             var derived = function ()
             {
@@ -110,21 +110,21 @@ module.exports = (function ()
         return supports;
     }
 
-    function _assertArgsAreValid(parentCtor, pickParentArgs, ctor, proto)
+    function _assertArgsAreValid(parentCtor, ctor, pickParentArgs, proto)
     {
         if(!isFunction(parentCtor))
         {
             throw new TypeError("'parentCtor' must be a function.");
         }
 
-        if(null !== pickParentArgs && !isFunction(pickParentArgs))
-        {
-            throw new TypeError("'pickParentArgs' must be null or a function.");
-        }
-
         if(!isFunction(ctor))
         {
             throw new TypeError("'ctor' must be a function.");
+        }
+
+        if(null !== pickParentArgs && !isFunction(pickParentArgs))
+        {
+            throw new TypeError("'pickParentArgs' must be null or a function.");
         }
 
         if(!isDefinedAndNotNull(proto))
