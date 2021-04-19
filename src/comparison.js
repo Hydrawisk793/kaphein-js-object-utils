@@ -3,9 +3,6 @@ var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
 var isArray = kapheinJsTypeTrait.isArray;
 var isFunction = kapheinJsTypeTrait.isFunction;
 
-var kapheinJsMath = require("kaphein-js-math");
-var relativelyEquals = kapheinJsMath.relativelyEquals;
-
 module.exports = (function ()
 {
     var defaultDeepEqualityComparisionOption = {
@@ -165,6 +162,20 @@ module.exports = (function ()
         }
 
         return areEqual;
+    }
+
+    /**
+     *  @param {number} l
+     *  @param {number} r
+     *  @param {number} [epsilon]
+     */
+    function relativelyEquals(l, r)
+    {
+        var epsilon = ("number" === typeof arguments[2] ? arguments[2] : 1e-9);
+
+        var absLSubtractR = Math.abs(l - r);
+
+        return absLSubtractR <= epsilon || absLSubtractR <= epsilon * Math.max(Math.abs(l), Math.abs(r));
     }
 
     return {

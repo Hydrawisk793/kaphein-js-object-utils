@@ -27,7 +27,6 @@
     },
     "bundledDependencies": [],
     "dependencies": {
-        "kaphein-js-math": "~0.2.0",
         "kaphein-js-type-trait": "~0.3.0",
         "kaphein-ts-type-utils": "~0.2.0"
     },
