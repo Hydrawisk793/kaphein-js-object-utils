@@ -31,8 +31,8 @@ export declare function extendClass<
     >,
 >(
     baseClass : BaseClass,
-    pickParentArgs : ((...args : ConstructorParameters<BaseClass>) => ArrayLike<any>) | null,
     ctor : Constructor,
+    pickParentArgs : ((...args : Parameters<Constructor>) => ArrayLike<any>) | null,
     proto : Prototype
 ) : Assign<
     DerivedConstructor,

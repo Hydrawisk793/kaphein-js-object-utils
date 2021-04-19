@@ -101,11 +101,11 @@ module.exports = function ()
         bCtor.staticMemberOfB = "test";
         const B = extendClass(
             A,
+            bCtor,
             function (a)
             {
                 return [a];
             },
-            bCtor,
             Object.assign(
                 {
                     bar()
