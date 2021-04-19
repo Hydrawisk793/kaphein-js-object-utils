@@ -79,7 +79,7 @@ module.exports = function ()
         expect(new B().constructor).to.be.null;
     });
 
-    function _createBClassViaExtendClassFunc(proto = void 0)
+    function _createBClassViaExtendClassFunc(proto = {})
     {
         // class B extends A
         // {
@@ -101,9 +101,9 @@ module.exports = function ()
         bCtor.staticMemberOfB = "test";
         const B = extendClass(
             A,
-            function (args)
+            function (a)
             {
-                return [args[0]];
+                return [a];
             },
             bCtor,
             Object.assign(

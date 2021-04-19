@@ -1,7 +1,7 @@
 import { Assign } from "kaphein-ts-type-utils";
 
 export declare function extendClass<
-    BaseClass extends Function,
+    BaseClass extends { prototype : any; new (...args : any[]) : any; },
     Constructor extends (...args : any[]) => any,
     Prototype,
     DerivedConstructor extends Assign<
@@ -31,7 +31,7 @@ export declare function extendClass<
     >,
 >(
     baseClass : BaseClass,
-    pickParentArgs : (args : IArguments) => ArrayLike<any> | null,
+    pickParentArgs : ((...args : ConstructorParameters<BaseClass>) => ArrayLike<any>) | null,
     ctor : Constructor,
     proto : Prototype
 ) : Assign<
