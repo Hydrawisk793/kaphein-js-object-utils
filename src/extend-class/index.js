@@ -15,7 +15,7 @@ module.exports = (function ()
             {
                 constructor()
                 {
-                    super(...(isFunction(pickParentArgs) ? pickParentArgs(arguments) : arguments));
+                    super(...(isFunction(pickParentArgs) ? pickParentArgs.apply(void 0, arguments) : arguments));
                     ctor.apply(this, arguments);
                 }
             };
@@ -36,7 +36,7 @@ module.exports = (function ()
 
             var derived = function ()
             {
-                parentCtor.apply(this, (isFunction(pickParentArgs) ? pickParentArgs(arguments) : arguments));
+                parentCtor.apply(this, (isFunction(pickParentArgs) ? pickParentArgs.apply(void 0, arguments) : arguments));
                 ctor.apply(this, arguments);
             };
 
@@ -80,7 +80,7 @@ module.exports = (function ()
 
     function _supportsClass()
     {
-        var supports = false;
+        var supports = true;
 
         try
         {
@@ -96,7 +96,7 @@ module.exports = (function ()
 
     function _supportsSpreadInFunctionCalls()
     {
-        var supports = false;
+        var supports = true;
 
         try
         {
