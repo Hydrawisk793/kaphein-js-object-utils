@@ -1,6 +1,5 @@
 var kapheinJsTypeTrait = require("kaphein-js-type-trait");
-var isNonNullObject = kapheinJsTypeTrait.isNonNullObject;
-var isFunction = kapheinJsTypeTrait.isFunction;
+var isReferenceType = kapheinJsTypeTrait.isReferenceType;
 var isString = kapheinJsTypeTrait.isString;
 
 module.exports = (function ()
@@ -26,9 +25,9 @@ module.exports = (function ()
      */
     function prefixToKeys(obj, text)
     {
-        if(!(isFunction(obj) || isNonNullObject(obj)))
+        if(!isReferenceType(obj))
         {
-            throw new TypeError("'obj' must be a non-null object.");
+            throw new TypeError("The type of 'obj' must be a refrence type.");
         }
 
         if(!isString(text))
@@ -76,9 +75,9 @@ module.exports = (function ()
      */
     function suffixToKeys(obj, text)
     {
-        if(!(isFunction(obj) || isNonNullObject(obj)))
+        if(!isReferenceType(obj))
         {
-            throw new TypeError("'obj' must be a non-null object.");
+            throw new TypeError("The type of 'obj' must be a refrence type.");
         }
 
         if(!isString(text))
