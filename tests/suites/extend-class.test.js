@@ -4,12 +4,38 @@ const { extendClass } = require("../../src");
 
 module.exports = function ()
 {
-    class A
+    // class A
+    // {
+    //     constructor(a, b)
+    //     {
+    //         this.qux = 1;
+    //         this.a = a;
+    //         this.b = b;
+    //     }
+
+    //     foo()
+    //     {
+    //         return 0;
+    //     }
+
+    //     bar()
+    //     {
+    //         return 1;
+    //     }
+    // }
+    function A(a, b)
     {
+        this.qux = 1;
+        this.a = a;
+        this.b = b;
+    }
+    A.prototype = {
+        constructor : A,
+
         foo()
         {
             return 0;
-        }
+        },
 
         bar()
         {
@@ -19,49 +45,14 @@ module.exports = function ()
     A.staticMemberOfA = "A";
     const a = new A();
 
-    // class B extends A
-    // {
-    //     bar()
-    //     {
-    //         return "asdf";
-    //     }
-
-    //     baz()
-    //     {
-    //         return false;
-    //     }
-    // }
-    // B.staticMemberOfB = "test";
-    let B = null;
-
-    let b = null;
-
-    it("should create a derived class.", function ()
-    {
-        const bCtor = function B()
-        {};
-        bCtor.staticMemberOfB = "test";
-        B = extendClass(
-            A,
-            bCtor,
-            {
-                bar()
-                {
-                    return "asdf";
-                },
-
-                baz()
-                {
-                    return false;
-                }
-            }
-        );
-
-        b = new B();
-    });
-
     it("should implement inheritance relationships.", function ()
     {
+        const B = _createBClassViaExtendClassFunc();
+        const b = new B("a", "b");
+
+        expect(b.qux).to.equal(new A().qux);
+        expect(b.a).to.be.equal("a");
+        expect(b.b).to.be.undefined;
         expect(b).to.instanceOf(B);
         expect(b).to.instanceOf(A);
         expect(B).to.instanceOf(A.constructor);
@@ -71,8 +62,66 @@ module.exports = function ()
 
     it("should implement method overridings.", function ()
     {
+        const B = _createBClassViaExtendClassFunc();
+        const b = new B();
+
         expect(a.foo()).to.equal(b.foo());
         expect(b.bar()).to.equal("asdf");
         expect(b.baz()).to.equal(false);
     });
+
+    it("should be able to override constructor property.", function ()
+    {
+        const B = _createBClassViaExtendClassFunc({
+            constructor : null,
+        });
+
+        expect(new B().constructor).to.be.null;
+    });
+
+    function _createBClassViaExtendClassFunc(proto = void 0)
+    {
+        // class B extends A
+        // {
+        //     bar()
+        //     {
+        //         return "asdf";
+        //     }
+
+        //     baz()
+        //     {
+        //         return false;
+        //     }
+        // }
+        // Object.assign(B.prototype, proto);
+        // B.staticMemberOfB = "test";
+
+        const bCtor = function B()
+        {};
+        bCtor.staticMemberOfB = "test";
+        const B = extendClass(
+            A,
+            function (args)
+            {
+                return [args[0]];
+            },
+            bCtor,
+            Object.assign(
+                {
+                    bar()
+                    {
+                        return "asdf";
+                    },
+
+                    baz()
+                    {
+                        return false;
+                    }
+                },
+                proto
+            )
+        );
+
+        return B;
+    }
 };

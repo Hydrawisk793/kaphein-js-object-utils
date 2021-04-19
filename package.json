@@ -1,6 +1,6 @@
 {
     "name": "kaphein-js-object-utils",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A set of javascript object utilities.",
     "author": "Hydrawisk793 <hyw793@gmail.com>",
     "license": "MIT",
@@ -27,9 +27,8 @@
     },
     "bundledDependencies": [],
     "dependencies": {
-        "kaphein-js-math": "~0.2.0",
-        "kaphein-js-type-trait": "~0.1.0",
-        "kaphein-ts-type-utils": "~0.1.0"
+        "kaphein-js-type-trait": "~0.3.0",
+        "kaphein-ts-type-utils": "~0.2.0"
     },
     "devDependencies": {
         "chai": "^4.3.4",

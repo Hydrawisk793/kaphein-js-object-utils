@@ -15,22 +15,23 @@ export declare function extendClass<
     Derived extends Assign<
         BasePrototype,
         Assign<
-            Prototype,
             {
                 constructor : DerivedConstructor;
-            }
+            },
+            Prototype
         >
     > = Assign<
         BasePrototype,
         Assign<
-            Prototype,
             {
                 constructor : DerivedConstructor;
-            }
+            },
+            Prototype
         >
     >,
 >(
     baseClass : BaseClass,
+    pickParentArgs : (args : IArguments) => ArrayLike<any> | null,
     ctor : Constructor,
     proto : Prototype
 ) : Assign<

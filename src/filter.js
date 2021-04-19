@@ -1,4 +1,5 @@
 var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isArray = kapheinJsTypeTrait.isArray;
 var isNonNullObject = kapheinJsTypeTrait.isNonNullObject;
 var isFunction = kapheinJsTypeTrait.isFunction;
 
@@ -21,6 +22,7 @@ module.exports = (function ()
     function pickKeys(obj, predicate)
     {
         /** @type {(keyof T)[]} */var finalKeys = Object.keys(obj);
+
         if(isFunction(predicate))
         {
             finalKeys = finalKeys
@@ -30,23 +32,27 @@ module.exports = (function ()
                 })
             ;
         }
-        else if(Array.isArray(predicate))
+        else
         {
-            finalKeys = finalKeys
-                .filter(function (key)
-                {
-                    return predicate.includes(key);
-                })
-            ;
-        }
-        else if(isNonNullObject(predicate))
-        {
-            finalKeys = finalKeys
-                .filter(function (key)
-                {
-                    return (key in predicate) && predicate[key];
-                })
-            ;
+            var keyMap = null;
+            if(isArray(predicate))
+            {
+                keyMap = _createKeyMap(predicate);
+            }
+            else if(isNonNullObject(predicate))
+            {
+                keyMap = predicate;
+            }
+
+            if(keyMap)
+            {
+                finalKeys = finalKeys
+                    .filter(function (key)
+                    {
+                        return (key in keyMap) && keyMap[key];
+                    })
+                ;
+            }
         }
 
         return finalKeys;
@@ -85,6 +91,7 @@ module.exports = (function ()
     function omitKeys(obj, predicate)
     {
         /** @type {(keyof T)[]} */var finalKeys = Object.keys(obj);
+
         if(isFunction(predicate))
         {
             finalKeys = finalKeys
@@ -94,23 +101,27 @@ module.exports = (function ()
                 })
             ;
         }
-        else if(Array.isArray(predicate))
+        else
         {
-            finalKeys = finalKeys
-                .filter(function (key)
-                {
-                    return !predicate.includes(key);
-                })
-            ;
-        }
-        else if(isNonNullObject(predicate))
-        {
-            finalKeys = finalKeys
-                .filter(function (key)
-                {
-                    return !((key in predicate) && predicate[key]);
-                })
-            ;
+            var keyMap = null;
+            if(isArray(predicate))
+            {
+                keyMap = _createKeyMap(predicate);
+            }
+            else if(isNonNullObject(predicate))
+            {
+                keyMap = predicate;
+            }
+
+            if(keyMap)
+            {
+                finalKeys = finalKeys
+                    .filter(function (key)
+                    {
+                        return !((key in keyMap) && keyMap[key]);
+                    })
+                ;
+            }
         }
 
         return finalKeys;
@@ -135,6 +146,21 @@ module.exports = (function ()
                 return acc;
             }, /** @type {Partial<T>} */({}))
         ;
+    }
+
+    /**
+     *  @template T
+     *  @param {(keyof T)[]} keys
+     */
+    function _createKeyMap(keys)
+    {
+        /** @type {Record<keyof T, true>} */var keyMap = {};
+        keys.forEach(function (key)
+        {
+            keyMap[key] = true;
+        });
+
+        return keyMap;
     }
 
     return {
